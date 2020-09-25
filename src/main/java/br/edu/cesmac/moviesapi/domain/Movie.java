@@ -12,7 +12,7 @@ public class Movie {
     private String title;
     private Date   releaseDate;
     @ManyToOne
-    private Genre genre;
+    private Genre  genre;
     @ManyToMany
     @JoinTable(name               = "movie_actor",
                joinColumns        = @JoinColumn(name = "idMovie"),

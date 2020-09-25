@@ -1,7 +1,7 @@
 package br.edu.cesmac.moviesapi.resource;
 
 import br.edu.cesmac.moviesapi.domain.Movie;
-import br.edu.cesmac.moviesapi.repository.MovieRepository;
+import br.edu.cesmac.moviesapi.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,19 +9,18 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/movie")
 public class MovieResource {
     @Autowired
-    MovieRepository movieRepository;
+    MovieService movieService;
 
     @PostMapping
     public ResponseEntity<Void> saveMovie(@RequestBody Movie movie){
-        movieRepository.save(movie);
+        Movie saveMovie = movieService.saveMovie(movie);
 
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(movie.getIdMovie()).toUri();
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(saveMovie.getIdMovie()).toUri();
         return ResponseEntity.created(uri).build();
     }
 //    public Movie saveGenre(@RequestBody Movie movie) {
@@ -30,26 +29,26 @@ public class MovieResource {
 
     @GetMapping
     public List<Movie> listAll() {
-        return movieRepository.findAll();
+        return movieService.listAll();
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<Movie> searchById(@PathVariable("id") Long idMovie) {
-        return movieRepository.findById(idMovie).map(movie -> ResponseEntity.ok(movie)).orElse(ResponseEntity.notFound().build());
+        return movieService.searchById(idMovie).map(movie -> ResponseEntity.ok(movie)).orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping
     public void updateMovie(@RequestBody Movie movie) {
-        movieRepository.save(movie);
+        movieService.updateMovie(movie);
     }
 
     @DeleteMapping
     public void destroyMovie(@RequestBody Movie movie) {
-        movieRepository.delete(movie);
+        movieService.destroyMovie(movie);
     }
 
     @DeleteMapping(value = "/{id}")
-    public void destoyById(@PathVariable("id") Long idMovie) {
-        movieRepository.deleteById(idMovie);
+    public void destroyById(@PathVariable("id") Long idMovie) {
+        movieService.destroyById(idMovie);
     }
 }
