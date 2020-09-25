@@ -1,6 +1,8 @@
 package br.edu.cesmac.moviesapi.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
@@ -8,7 +10,10 @@ public class Genre {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long   idGenre;
+    @NotEmpty(message = "Obrigatório informar o gênero!")
+    @Size(max = 150)
     private String name;
+    @NotEmpty(message = "Obrigatório informar descrição!")
     private String description;
 //    @OneToMany
 //    @JoinColumn(name = "idGenre")

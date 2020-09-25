@@ -4,6 +4,7 @@ import br.edu.cesmac.moviesapi.domain.Genre;
 import br.edu.cesmac.moviesapi.service.GenreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -17,7 +18,7 @@ public class GenreResource {
     GenreService genreService;
 
     @PostMapping
-    public ResponseEntity<Void> saveGenre(@RequestBody Genre genre){
+    public ResponseEntity<Void> saveGenre(@Validated @RequestBody Genre genre){
         Genre saveGenre = genreService.saveGenre(genre);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(saveGenre.getIdGenre()).toUri();
@@ -37,8 +38,13 @@ public class GenreResource {
         return genreService.searchById(idGenre).map(genre -> ResponseEntity.ok(genre)).orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping(params = "name")
+    public List<Genre> searchByName(@RequestParam String name) {
+        return null;
+    }
+
     @PutMapping
-    public void updateGenre(@RequestBody Genre genre) {
+    public void updateGenre(@Validated @RequestBody Genre genre) {
         genreService.updateGenre(genre);
     }
 

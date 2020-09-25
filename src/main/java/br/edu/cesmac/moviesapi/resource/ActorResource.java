@@ -4,6 +4,7 @@ import br.edu.cesmac.moviesapi.domain.Actor;
 import br.edu.cesmac.moviesapi.service.ActorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -17,7 +18,7 @@ public class ActorResource {
     ActorService actorService;
 
     @PostMapping
-    public ResponseEntity<Void> saveActor(@RequestBody Actor actor){
+    public ResponseEntity<Void> saveActor(@Validated @RequestBody Actor actor){
         Actor saveActor = actorService.saveActor(actor);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(saveActor.getIdActor()).toUri();
@@ -38,7 +39,7 @@ public class ActorResource {
     }
 
     @PutMapping
-    public void updateActor(@RequestBody Actor actor) {
+    public void updateActor(@Validated @RequestBody Actor actor) {
         actorService.updateActor(actor);
     }
 
