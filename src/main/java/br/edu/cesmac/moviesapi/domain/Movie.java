@@ -1,10 +1,8 @@
 package br.edu.cesmac.moviesapi.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Movie {
@@ -13,6 +11,13 @@ public class Movie {
     private Long   idMovie;
     private String title;
     private Date   releaseDate;
+    @ManyToOne
+    private Genre genre;
+    @ManyToMany
+    @JoinTable(name               = "movie_actor",
+               joinColumns        = @JoinColumn(name = "idMovie"),
+               inverseJoinColumns = @JoinColumn(name = "idActor"))
+    private List<Actor> actors;
 
     public Long getIdMovie() {
         return idMovie;
@@ -36,5 +41,21 @@ public class Movie {
 
     public void setReleaseDate(Date releaseDate) {
         this.releaseDate = releaseDate;
+    }
+
+    public Genre getGenre() {
+        return genre;
+    }
+
+    public void setGenre(Genre genre) {
+        this.genre = genre;
+    }
+
+    public List<Actor> getActors() {
+        return actors;
+    }
+
+    public void setActors(List<Actor> actors) {
+        this.actors = actors;
     }
 }

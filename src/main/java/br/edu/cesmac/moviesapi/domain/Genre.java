@@ -1,9 +1,7 @@
 package br.edu.cesmac.moviesapi.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Genre {
@@ -12,6 +10,9 @@ public class Genre {
     private Long   idGenre;
     private String name;
     private String description;
+//    @OneToMany
+//    @JoinColumn(name = "idGenre")
+//    private List<Movie> movies;
 
     public Long getIdGenre() {
         return idGenre;
@@ -36,4 +37,12 @@ public class Genre {
     public void setDescription(String description) {
         this.description = description;
     }
+
+//    public List<Movie> getMovies() {
+//        return movies;
+//    }
+//
+//    public void setMovies(List<Movie> movies) {
+//        this.movies = movies;
+//    }
 }
