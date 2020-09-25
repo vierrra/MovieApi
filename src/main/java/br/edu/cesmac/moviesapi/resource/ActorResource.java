@@ -1,11 +1,13 @@
 package br.edu.cesmac.moviesapi.resource;
 
 import br.edu.cesmac.moviesapi.domain.Actor;
-import br.edu.cesmac.moviesapi.domain.Genre;
 import br.edu.cesmac.moviesapi.repository.ActorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,9 +18,15 @@ public class ActorResource {
     ActorRepository actorRepository;
 
     @PostMapping
-    public Actor saveGenre(@RequestBody Actor actor) {
-        return actorRepository.save(actor);
+    public ResponseEntity<Void> saveActor(@RequestBody Actor actor){
+        actorRepository.save(actor);
+
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(actor.getIdActor()).toUri();
+        return ResponseEntity.created(uri).build();
     }
+//    public Actor saveGenre(@RequestBody Actor actor) {
+//        return actorRepository.save(actor);
+//    }
 
     @GetMapping
     public List<Actor> listAll() {
@@ -26,8 +34,8 @@ public class ActorResource {
     }
 
     @GetMapping(value = "/{id}")
-    public Optional<Actor> searchById(@PathVariable("id") Long idActor) {
-        return actorRepository.findById(idActor);
+    public ResponseEntity<Actor> searchById(@PathVariable("id") Long idActor) {
+        return actorRepository.findById(idActor).map(actor -> ResponseEntity.ok(actor)).orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping
