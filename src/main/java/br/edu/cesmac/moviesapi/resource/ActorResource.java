@@ -18,7 +18,7 @@ public class ActorResource {
     ActorService actorService;
 
     @PostMapping
-    public ResponseEntity<Void> saveActor(@RequestBody Actor actor){
+    public ResponseEntity<Void> saveActor(@Validated @RequestBody Actor actor){
         Actor saveActor = actorService.saveActor(actor);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(saveActor.getIdActor()).toUri();
@@ -44,7 +44,7 @@ public class ActorResource {
     }
 
     @PutMapping
-    public void updateActor(@RequestBody Actor actor) {
+    public void updateActor(@Validated @RequestBody Actor actor) {
         actorService.updateActor(actor);
     }
 
