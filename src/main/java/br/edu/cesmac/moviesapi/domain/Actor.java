@@ -1,11 +1,12 @@
 package br.edu.cesmac.moviesapi.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Actor {
@@ -15,10 +16,18 @@ public class Actor {
     @NotEmpty(message = "Obrigatório informar o nome do ator!")
     @Size(max = 100)
     private String name;
+    private Date birthDate;
+    @NotEmpty(message = "Obrigatório informar o sexo!")
     @Size(max = 1)
     private String sex;
     @NotEmpty(message = "Obrigatório informar biografia do autor!")
     private String biography;
+    @ManyToMany
+    @JsonIgnoreProperties("actor")
+    @JoinTable(name               = "movie_actor",
+               joinColumns        = @JoinColumn(name = "idActor"),
+               inverseJoinColumns = @JoinColumn(name = "idMovie"))
+    private List<Movie> movies;
 
     public Long getIdActor() {
         return idActor;
@@ -36,6 +45,14 @@ public class Actor {
         this.name = name;
     }
 
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
     public String getSex() {
         return sex;
     }
@@ -50,5 +67,13 @@ public class Actor {
 
     public void setBiography(String biography) {
         this.biography = biography;
+    }
+
+    public List<Movie> getMovies() {
+        return movies;
+    }
+
+    public void setMovies(List<Movie> movies) {
+        this.movies = movies;
     }
 }

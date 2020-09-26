@@ -1,5 +1,6 @@
 package br.edu.cesmac.moviesapi.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -14,23 +15,19 @@ import static javax.print.attribute.Size2DSyntax.MM;
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long   idMovie;
-    @NotEmpty(message = "Obrigatório informar o nome do filme!")
+    private Long idMovie;
+    @NotEmpty(message = "Obrigatório informar o titulo do filme!")
     @Size(max = 200)
     private String title;
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private Date   releaseDate;
+    private Date releaseDate;
     @NotEmpty(message = "Obrigatório informar sinopse do filme!")
     private String synopsis;
 
     @ManyToOne
-    //@NotNull(message = "Obrigatório informar o genero!")
     private Genre  genre;
-    @ManyToMany
-    //@NotNull(message = "Obrigatório informar ator!")
-    @JoinTable(name               = "movie_actor",
-               joinColumns        = @JoinColumn(name = "idMovie"),
-               inverseJoinColumns = @JoinColumn(name = "idActor"))
+    @ManyToMany(mappedBy = "movies", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("movie")
     private List<Actor> actors;
 
     public Long getIdMovie() {

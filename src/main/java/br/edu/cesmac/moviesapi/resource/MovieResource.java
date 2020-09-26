@@ -18,7 +18,7 @@ public class MovieResource {
     MovieService movieService;
 
     @PostMapping
-    public ResponseEntity<Void> saveMovie(@Validated @RequestBody Movie movie){
+    public ResponseEntity<Void> saveMovie(@RequestBody Movie movie){
         Movie saveMovie = movieService.saveMovie(movie);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(saveMovie.getIdMovie()).toUri();
@@ -44,7 +44,7 @@ public class MovieResource {
     }
 
     @PutMapping
-    public void updateMovie(@Validated @RequestBody Movie movie) {
+    public void updateMovie(@RequestBody Movie movie) {
         movieService.updateMovie(movie);
     }
 
