@@ -38,6 +38,11 @@ public class ActorResource {
         return actorService.searchById(idActor).map(actor -> ResponseEntity.ok(actor)).orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping(params = "name")
+    public List<Actor> searchByName(String name) {
+        return actorService.searchByName(name);
+    }
+
     @PutMapping
     public void updateActor(@Validated @RequestBody Actor actor) {
         actorService.updateActor(actor);

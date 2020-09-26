@@ -40,7 +40,7 @@ public class GenreResource {
 
     @GetMapping(params = "name")
     public List<Genre> searchByName(@RequestParam String name) {
-        return null;
+        return genreService.searchByName(name);
     }
 
     @PutMapping
@@ -57,4 +57,5 @@ public class GenreResource {
     public void destroyById(@PathVariable("id") Long idGenre) {
         genreService.destroyById(idGenre);
     }
+
 }

@@ -38,6 +38,11 @@ public class MovieResource {
         return movieService.searchById(idMovie).map(movie -> ResponseEntity.ok(movie)).orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping(params = "title")
+    public List<Movie> searchByName(String title) {
+        return movieService.searchByTitle(title);
+    }
+
     @PutMapping
     public void updateMovie(@Validated @RequestBody Movie movie) {
         movieService.updateMovie(movie);

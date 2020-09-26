@@ -38,4 +38,8 @@ public class ActorService {
     public void destroyById(Long idActor) {
         actorRepository.deleteById(idActor);
     }
+
+    public List<Actor> searchByName(String name) {
+        return actorRepository.findByName(name);
+    }
 }

@@ -42,4 +42,8 @@ public class GenreService {
     public void destroyById(Long idGenre) {
         genreRepository.deleteById(idGenre);
     }
+
+    public List<Genre> searchByName(String name) {
+        return genreRepository.findByName(name);
+    }
 }

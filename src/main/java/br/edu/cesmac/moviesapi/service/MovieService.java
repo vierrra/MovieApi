@@ -38,4 +38,8 @@ public class MovieService {
     public void destroyById(Long idMovie) {
         movieRepository.deleteById(idMovie);
     }
+
+    public List<Movie> searchByTitle(String title) {
+        return movieRepository.findByTitle(title);
+    }
 }
